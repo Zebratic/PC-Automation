@@ -24,7 +24,7 @@ app.post('/shutdown', (req, res) => {
 // ============================= KVM Commands =============================
 // Boot VMs
 app.post('/bootvm', (req, res) => {
-    var domain = req.body.domain;
+    var domain = req.query.domain;
     res.send(`Booting ${domain} VM...`);
     exec(`sudo virsh start ${domain}`, (err, stdout, stderr) => {
         if (err) {
@@ -37,7 +37,7 @@ app.post('/bootvm', (req, res) => {
 
 // Shutdown VMs
 app.post('/shutdownvm', (req, res) => {
-    var domain = req.body.domain;
+    var domain = req.query.domain;
     res.send(`Shutting down ${domain} VM...`);
     exec(`sudo virsh shutdown ${domain}`, (err, stdout, stderr) => {
         if (err) {
