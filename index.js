@@ -1,5 +1,6 @@
 const express = require('express');
 const { exec } = require('child_process');
+const child_process = require("child_process");
 
 const app = express();
 const PORT = 1337;
@@ -35,14 +36,22 @@ app.post('/bootvm', (req, res) => {
             return;
         }
         console.log(stdout);
-        exec(`virt-manager --connect qemu:///system --show-domain-console ${domain}`, (err, stdout, stderr) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            console.log(stdout);
-        });
     });
+    
+    // run virt-manager --connect qemu:///system --show-domain-console ${domain} on display 0
+    /*
+    child_process.spawnSync(
+        "bash",
+        [
+            "-c",
+            `virt-manager --connect qemu:///system --show-domain-console ${domain}`,
+        ],
+        {
+          stdio: "inherit",
+        }
+    );
+    */
+    
 });
 
 // Shutdown VMs
